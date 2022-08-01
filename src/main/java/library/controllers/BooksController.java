@@ -73,7 +73,7 @@ import javax.validation.Valid;
             return "books/edit";
         }
 
-        @PatchMapping("/{id}")
+        @PostMapping("/{id}")
         public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                              @PathVariable("id") int id) {
             if (bindingResult.hasErrors())
@@ -89,13 +89,13 @@ import javax.validation.Valid;
             return "redirect:/books";
         }
 
-        @PatchMapping("/{id}/release")
+        @PostMapping("/{id}/release")
         public String release(@PathVariable("id") int id) {
             booksService.release(id);
             return "redirect:/books/" + id;
         }
 
-        @PatchMapping("/{id}/assign")
+        @PostMapping("/{id}/assign")
         public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person selectedPerson) {
             // У selectedPerson назначено только поле id, остальные поля - null
             booksService.assign(id, selectedPerson);

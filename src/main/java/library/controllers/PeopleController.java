@@ -55,13 +55,13 @@ import javax.validation.Valid;
             return "redirect:/people";
         }
 
-        @GetMapping("/{id}/edit")
+          @GetMapping("/{id}/edit")
         public String edit(Model model, @PathVariable("id") int id) {
             model.addAttribute("person", peopleService.findOne(id));
             return "people/edit";
         }
 
-        @PatchMapping("/{id}")
+        @PostMapping("/{id}")
         public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                              @PathVariable("id") int id) {
             if (bindingResult.hasErrors())
@@ -71,7 +71,7 @@ import javax.validation.Valid;
             return "redirect:/people";
         }
 
-        @PostMapping("/{id}")
+        @DeleteMapping("/{id}")
         public String delete(@PathVariable("id") int id) {
             peopleService.delete(id);
             return "redirect:/people";
