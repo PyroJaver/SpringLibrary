@@ -1,9 +1,7 @@
 package library.service;
 
 import library.creator.PersonCreator;
-import library.models.Book;
 import library.models.Person;
-import library.services.BooksService;
 import library.services.PeopleService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +20,7 @@ public class PeopleServiceTests {
     private PeopleService peopleService;
 
     @Test
-    public void checkBooksServiceIsNotNull(){
+    public void PeopleServiceIsNotNullTest(){
         initMocks(this);
         assertThat(peopleService).isNotNull();
     }
@@ -38,5 +36,33 @@ public class PeopleServiceTests {
         assertThat(found.getFullName()).isEqualTo(testPerson.getFullName());
         assertThat(found.getYearOfBirth()).isEqualTo(testPerson.getYearOfBirth());
 
+    }
+    @Test
+    public void deletePersonTest(){
+        Person testPerson = PersonCreator.createTestPerson();
+        peopleService.save(testPerson);
+        peopleService.delete(testPerson.getId());
+
+        Person found = peopleService.findOne(testPerson.getId());
+
+        assertThat(found).isNull();
+    }
+
+    @Test
+    public void editPersonTest(){
+        Person testPerson = PersonCreator.createTestPerson();
+        Person newTestPerson = PersonCreator.createTestPerson();
+        newTestPerson.setYearOfBirth(2001);
+        newTestPerson.setFullName("Mikhail Plesovskikh");
+
+        peopleService.save(testPerson);
+        peopleService.update(testPerson.getId(), newTestPerson);
+
+        when(peopleService.findOne(testPerson.getId())).thenReturn(newTestPerson);
+        Person found = peopleService.findOne(newTestPerson.getId());
+
+        assertThat(found).isNotNull();
+        assertThat(found.getFullName()).isEqualTo("Mikhail Plesovskikh");
+        assertThat(found.getYearOfBirth()).isEqualTo(2001);
     }
 }
