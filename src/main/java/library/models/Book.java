@@ -37,7 +37,7 @@ public class Book {
     private Date takenAt;
 
     @Transient
-    private boolean expired; // Hibernate не будет замечать этого поля, что нам и нужно. По-умолчанию false.
+    private boolean expired;
 
     public Book() {
 
